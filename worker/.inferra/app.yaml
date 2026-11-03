@@ -1,0 +1,8 @@
+version: 3
+name: worker
+type: worker
+process: worker
+instances: 1
+services:
+  db: readwrite
+  cache: readwrite
