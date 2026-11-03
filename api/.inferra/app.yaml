@@ -1,0 +1,10 @@
+version: 3
+name: api
+type: web
+process: web
+port: 8000
+health:
+  path: /health
+services:
+  db: readwrite
+  cache: readwrite
