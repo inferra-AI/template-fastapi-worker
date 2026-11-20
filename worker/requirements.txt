@@ -1,0 +1,5 @@
+# Runtime dependencies; resolved transitive dependencies are pinned below.
+psycopg[binary]==3.3.6
+redis==8.1.0
+psycopg-binary==3.3.6
+typing-extensions==4.16.0

@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:17.2
+    environment:
+      POSTGRES_USER: starter
+      POSTGRES_PASSWORD: starter
+      POSTGRES_DB: starter
+    ports: ["5432:5432"]
+    volumes: ["db-data:/var/lib/postgresql/data"]
+  cache:
+    image: valkey/valkey:8.0.2
+    ports: ["6379:6379"]
+volumes:
+  db-data:
