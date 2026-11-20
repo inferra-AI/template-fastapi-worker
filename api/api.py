@@ -20,6 +20,8 @@ def health():
 
 @app.post("/jobs", status_code=202)
 def enqueue(job: Job):
+    if "\x00" in job.text:
+        raise HTTPException(422, "Job text cannot contain NUL characters")
     identifier = str(uuid4())
     cache().rpush(QUEUE, json.dumps({"id": identifier, "text": job.text}))
     return {"id": identifier}

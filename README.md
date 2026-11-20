@@ -89,7 +89,9 @@ curl -s http://localhost:8000/jobs/REPLACE_WITH_RETURNED_UUID
 
 The result becomes `HELLO INFERRA`. `/docs` provides interactive API documentation. The worker creates `job_results` automatically. The worker has no public route or HTTP health check.
 
-This minimal queue uses `BLPOP`: a worker crash between dequeue and database commit can lose a job. Database failures requeue the job, and inserts are idempotent by UUID. Use a durable queue with acknowledgments for production workloads.
+`POST /jobs` returns HTTP 422 for text containing a NUL character. The worker moves invalid queued entries and jobs rejected for invalid database data to the Valkey list `starter:jobs:dead`. That list retains the original submitted text. Keep access restricted. A dead-lettered job with a known UUID still reports `pending` when polled.
+
+This minimal queue uses `BLPOP`: a worker crash after dequeue can lose a job. Dependency failures while processing a job or writing a dead letter trigger an attempt to requeue the job. Result inserts are idempotent by UUID. Use a durable queue with acknowledgments for production workloads.
 
 ## Files
 
